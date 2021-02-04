@@ -10,7 +10,7 @@
 #       Button Exit
 
 from tkinter import Tk, Frame, Label, Button
-from buttons import book_details
+from buttons import book_details, delete_book
 
 class MainWindow(Frame):
     """main_window and all widgets"""
@@ -55,7 +55,7 @@ class MainWindow(Frame):
         book_details.start()
 
     def delete_book(self):
-        pass
+        delete_book.start()
 
     def book_list(self):
         pass

@@ -28,21 +28,7 @@ class BookDetailsWindow(Frame):
         # Create 8 entries with book characteristics
         for button in range(8):
             Entry(self).grid()
-        
-        # Accept/Abort buttons
-        accept = Button(self, text = 'Accept', command = self.accept)
-        abort = Button(self, text = 'Cancel', command = self.abort)
-        
-        accept.grid()
-        abort.grid()
-        
-    # Accept/Abort buttons functions
-    def accept(self):
-        pass
-    
-    def abort(self):
-        self.master.destroy()
-           
+                 
 
 # Run mainloop
 def start():
