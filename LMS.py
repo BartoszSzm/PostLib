@@ -22,51 +22,55 @@ class MainWindow(Frame):
     
     def create_widgets(self):
         """Create all widgets in main_window"""
-        # Title label
+        self._welcome_label()
+        self._create_buttons()
+        
+    def _welcome_label(self):
+        """Label with welcome text"""
         Label(self, text='Welcome to library').grid()
         
-        # Create buttons
+    def _create_buttons(self):
+        """Create all buttons in main window"""
         book_details_button = Button(self,text = "Add Book Details", 
-                              command = self.book_details)
+                              command = self._book_details)
         book_details_button.grid()
         
         delete_book_button = Button(self,text = "Delete Book", 
-                              command = self.delete_book)
+                              command = self._delete_book)
         delete_book_button.grid()
         
         book_list_button = Button(self,text = "View Book List", 
-                              command = self.book_list)
+                              command = self._book_list)
         book_list_button.grid()
         
         issue_book_button = Button(self,text = "Issue Book", 
-                              command = self.issue_book)
+                              command = self._issue_book)
         issue_book_button.grid()
         
         return_book_button = Button(self,text = "Return Book", 
-                              command = self.return_book)
+                              command = self._return_book)
         return_book_button.grid()
         
         exit_button_button = Button(self,text = "Exit", 
-                              command = self.exit)
+                              command = self._exit)
         exit_button_button.grid()
     
-    # Commands functions
-    def book_details(self):
+    def _book_details(self):
         book_details.start()
 
-    def delete_book(self):
+    def _delete_book(self):
         delete_book.start()
 
-    def book_list(self):
+    def _book_list(self):
         pass
 
-    def issue_book(self):
+    def _issue_book(self):
         pass
     
-    def return_book(self):
+    def _return_book(self):
         pass
     
-    def exit(self):
+    def _exit(self):
         """Close main_window"""
         self.master.destroy()
                    
