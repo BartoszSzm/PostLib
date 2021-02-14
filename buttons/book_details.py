@@ -5,8 +5,8 @@
 #   Create 8 labels describing each entry
 #   Create accept and cancel button below
 
-from tkinter import Tk, Frame, Label, Entry, Button, messagebox
-from tkinter.constants import CENTER, EW, NE
+from tkinter import Toplevel, messagebox, Frame, Label, Entry, Button
+from tkinter.constants import EW
 import psycopg2
 from buttons import db_functions as db
 
@@ -16,6 +16,7 @@ class BookDetailsWindow(Frame):
     def __init__(self,master):
         super().__init__(master)
         self.master = master
+        self.grab_set()
         self.grid()
         self.create_widgets()
     
@@ -74,7 +75,6 @@ class BookDetailsWindow(Frame):
         self.book_data = [parameter.get() for parameter in self.entries_obj]
         if self._answer_ok("Save publication","Save this publication ?"):
             self._save_to_db()
-            # self.master.destroy()
             
     def _save_to_db(self):
         """Save to database with exceptions handling"""
@@ -82,6 +82,8 @@ class BookDetailsWindow(Frame):
             db.save_book(self.book_data)
             success_info = messagebox.showinfo(title='Success',
                                     message='Publication successfully added.')
+            self.master.destroy()
+            
         except psycopg2.IntegrityError:
             error = messagebox.showerror(title='Empty field',
                                          message='Please enter correct data in'
@@ -106,7 +108,7 @@ class BookDetailsWindow(Frame):
 # Run mainloop
 def start():
     """Create book_details_window"""
-    root = Tk()
+    root = Toplevel()
     book_details_window = BookDetailsWindow(root)
     root.title('Add Book Details')
     root.geometry('469x404')

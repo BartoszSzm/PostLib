@@ -1,6 +1,5 @@
 # File contains functions prepared to retrieve or save data from/to database
 
-
 import psycopg2 as db
 
 
@@ -16,7 +15,7 @@ class PostgresConnectionManager():
     """Context manager to connect to PostgresSQL. Set 'returns' value to True
     if you are retrieving data from db"""
     
-    def __init__(self, conn_params, returns= False):
+    def __init__(self, conn_params, returns=False):
         self.conn_params = conn_params
         self.returns = returns
     
@@ -39,9 +38,14 @@ def save_book(data, conn_params=PARAMS):
                     f'(title, author, kind, publisher, year_of_publish,'
                     f'language, pages, isbn)'
                     f'VALUES {tuple(data)};')
-
-
-    
+        
+def get_results_by(parameter, value, conn_params=PARAMS):
+    """Returns records by given parameter"""
+    with PostgresConnectionManager(conn_params, returns=True) as postgres:
+        postgres.cursor.execute(f"SELECT * FROM publications "
+                                f"WHERE {parameter}='{value}';")
+        for result in postgres.cursor:
+            yield result
             
 
     
