@@ -41,6 +41,7 @@ class DeleteBookWindow(Frame):
     def _search_button(self):
         self.search_button = Button(self, text='Search', command=self._search)
         self.search_button.grid()
+        self.was_searched = False
         
     def _results_treeview(self):
         """Show results in treeview"""
@@ -51,7 +52,7 @@ class DeleteBookWindow(Frame):
         cols_width = [50, 200, 120, 90, 120, 150, 100, 70, 150, 90]
         
         self.results_window = Treeview(self, columns=cols, show='headings',
-                                       height=5)
+                                       height=2)
         
         #Treeview headings
         for (col,text,width) in zip(cols, cols_text, cols_width):
@@ -68,31 +69,48 @@ class DeleteBookWindow(Frame):
         abort.grid()
     
     def _search(self):
+        """Search and view result in treeview"""
         # Clear tree
         self.results_window.delete(*self.results_window.get_children())
         
         # Get value from entry - only numbers allowed
-        lib_id = self.id_entry.get()
+        self.lib_id = self.id_entry.get()
         try:
-            lib_id = int(lib_id)
+            self.lib_id = int(self.lib_id)
         except ValueError:
             info = messagebox.showerror('Error','ID must be a number...')
             return
  
         # Show results in tree
-        for result in db.get_results_by('lib_id',lib_id):
-            self.results_window.insert('',END,values=result)
+        for result in db.get_results_by('lib_id',self.lib_id):
+            self.results_window.insert('', END, values=result)
         
         # If no results throw info
         if not self.results_window.get_children():
             info = messagebox.showinfo('Results',
                                        'No results matching given value.')
         
-           
-    # Accept/Abort buttons functions
+        # Flag determines if search was performed
+        self.was_searched = True
+        
     def _accept(self):
-    # After hit accept ask if user are shure - deletion will be permanent
-        # If shure run delete book function in db_functions
+        """Delete found record from db"""
+        
+        if not self.was_searched:
+            info = messagebox.showwarning('Info','Please search for record '
+                                          'first and check it.')
+            return
+        if self.results_window.get_children():
+            warning = messagebox.askyesno('Warning!','Deletion will be permanent.'
+                                    '\nAre you shure ?')
+            if warning:
+                try:
+                    db.delete_record_by(self.lib_id)
+                    deleted = messagebox.showinfo('Success','Record deleted successfully.')
+                except Exception as error:
+                    saving_error = messagebox.showerror('Error',error)
+        else:
+            error = messagebox.showerror('Error','Nothing found under given ID.')
     
     def _abort(self):
         self.master.destroy()

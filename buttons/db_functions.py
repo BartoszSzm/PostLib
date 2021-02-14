@@ -46,6 +46,12 @@ def get_results_by(parameter, value, conn_params=PARAMS):
                                 f"WHERE {parameter}='{value}';")
         for result in postgres.cursor:
             yield result
+
+def delete_record_by(lib_id, conn_params=PARAMS):
+    """Delete single record with given lib_id"""
+    with PostgresConnectionManager(conn_params) as postgres:
+        postgres.cursor.execute(f'DELETE FROM publications '
+                                f'WHERE lib_id = {lib_id};')
             
 
     

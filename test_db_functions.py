@@ -45,6 +45,8 @@ class TestDbFunctions(unittest.TestCase):
     ('lib_id', 'a', ('Error here')),
     ('is_issued', 5, ('Error here')), 
     )
+    # Should contain only numbers >= 100!
+    DELETE_RECORD_TEST_DATA = (100, '105', 'abc', 'text')
     
     def setUp(self):
         self.conn = db.connect(**self.TEST_PARAMS) 
@@ -90,8 +92,38 @@ class TestDbFunctions(unittest.TestCase):
                 self.assertNotIsInstance(data_list[1], bool)
             else:
                 self.assertNotIsInstance(data_list[1], int)
-
     
+    @data(*DELETE_RECORD_TEST_DATA)
+    def test_delete_record_by(self, test_data):
+        """Test if func deletes record by given lib_id"""
+        try:
+            # Delete record with lib_id = test_data if exist
+            self.cursor.execute(f'DELETE FROM publications WHERE lib_id = {test_data}')
+            self.conn.commit()
+            
+            # Make test record
+            self.cursor.execute(f"INSERT INTO publications"
+                        f"(lib_id, title, author, kind, publisher, year_of_publish,"
+                        f"language, pages, isbn)"
+                        f"VALUES ({test_data},'text','text','text','text',1993,'text','100','text');")
+            self.conn.commit()
+        
+            # Delete test record using tested func
+            db_func.delete_record_by(test_data, conn_params=self.TEST_PARAMS)
+            
+            # Check if record was deleted
+            self.cursor.execute(f'SELECT * FROM publications WHERE lib_id = {test_data}')
+            for record in self.cursor:
+                self.assertTrue(record == None)
+        
+        # Check exception handling
+        except db.ProgrammingError:
+            self.assertNotIsInstance(test_data, int)
+                        
+            
+            
+            
+        
     def tearDown(self):
         self.cursor.close()
         self.conn.close()
