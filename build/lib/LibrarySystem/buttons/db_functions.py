@@ -1,4 +1,5 @@
 # File contains functions prepared to retrieve or save data from/to database
+# MAKE DATABASE CONNECTOR
 
 import psycopg2 as db
 
@@ -7,7 +8,7 @@ PARAMS = {
 'database' : 'pi',
 'user' : 'pi',
 'password' : 'Haslolinux4',
-'host' : '192.168.1.24',
+'host' : '192.168.1.16',
 'port' : '5432'
 }
 
@@ -52,6 +53,7 @@ def delete_record_by(lib_id, conn_params=PARAMS):
     with PostgresConnectionManager(conn_params) as postgres:
         postgres.cursor.execute(f'DELETE FROM publications '
                                 f'WHERE lib_id = {lib_id};')
+        
             
 
     

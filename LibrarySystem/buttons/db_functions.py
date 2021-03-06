@@ -53,6 +53,7 @@ def delete_record_by(lib_id, conn_params=PARAMS):
     with PostgresConnectionManager(conn_params) as postgres:
         postgres.cursor.execute(f'DELETE FROM publications '
                                 f'WHERE lib_id = {lib_id};')
+        
             
 
     

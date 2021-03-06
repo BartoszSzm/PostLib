@@ -7,9 +7,9 @@ LibrarySystem.egg-info/dependency_links.txt
 LibrarySystem.egg-info/top_level.txt
 LibrarySystem/buttons/__init__.py
 LibrarySystem/buttons/book_details.py
+LibrarySystem/buttons/book_list.py
 LibrarySystem/buttons/db_functions.py
 LibrarySystem/buttons/delete_book.py
-LibrarySystem/buttons/view_book_list.py
 LibrarySystem/tests/__init__.py
 LibrarySystem/tests/test_db_functions.py
 LibrarySystem/tests/test_delete_book.py

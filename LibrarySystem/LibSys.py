@@ -1,6 +1,6 @@
 
 from tkinter import Tk, Frame, Label, Button
-from LibrarySystem.buttons import book_details, delete_book
+from LibrarySystem.buttons import book_details, delete_book, book_list
 #pylint: disable=unused-variable
 
 class MainWindow(Frame):
@@ -53,7 +53,7 @@ class MainWindow(Frame):
         delete_book.start()
 
     def _book_list(self):
-        pass
+        book_list.start()
 
     def _issue_book(self):
         pass

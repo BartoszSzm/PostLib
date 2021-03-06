@@ -1,16 +1,16 @@
 """ All tests for db_functions file"""
 
 import unittest
-from buttons import db_functions as db_func
-from ddt import ddt, data
+from LibrarySystem.buttons import db_functions as db_func
 import psycopg2 as db
+#pylint: disable=unused-variable
 
 class TestContextManager(unittest.TestCase):
     """Test all db functions"""
     
     def test_db_context_manager(self):
         """Test if context manager opens connection and cursor and closing all
-        after leaving with block"""
+        after leaving 'with' block"""
         
         with db_func.PostgresConnectionManager(db_func.PARAMS) as postgres:
             self.assertFalse(postgres.conn.closed)
@@ -18,7 +18,6 @@ class TestContextManager(unittest.TestCase):
         self.assertTrue(postgres.conn.closed)
         self.assertTrue(postgres.cursor.closed)
 
-@ddt   
 class TestDbFunctions(unittest.TestCase):
     """Test all functions that make contact whith db"""
  
@@ -26,76 +25,65 @@ class TestDbFunctions(unittest.TestCase):
     'database' : 'test',
     'user' : 'pi',
     'password' : 'Haslolinux4',
-    'host' : '192.168.1.24',
+    'host' : '192.168.1.16',
     'port' : '5432'
     }
     
-    SAVE_BOOK_TEST_DATA = (
-                ('Title','Author','Kind','Publisher',1993,'Language',100,'ISBN'),
-                ('Title','Author','Kind','Publisher','','Language',100,'ISBN'),
-                ('Title','','Kind','Publisher',1993,'Language',100,'ISBN'),
-                ('','Author','Kind','Publisher',1993,'Language',100,'ISBN'),
-                ('Title','Author','Kind','',1993,'Language',100,'ISBN'))
-    
-    GET_RESULTS_TEST_DATA = (
-    ('lib_id','5', (5,'Bigfoot Lives','Hermy Ashbe','Adventure|Documentary|Drama','Dryden',2000,'Albanian','306','694852980-1',False)),
-    ('author','Rosanna Agnew', (75,'2:37','Rosanna Agnew',None,'Atwood',2005,'Greek',None,None,False)),
-    ('title','Moja Ksiazka', (None)),
-    ('lib_id', 'a', ('Error here')),
-    ('is_issued', 5, ('Error here')), 
-    )
-    # Should contain only numbers >= 100!
-    DELETE_RECORD_TEST_DATA = (100, '105', 'abc', 'text')
-    
     def setUp(self):
-        self.conn = db.connect(**self.TEST_PARAMS) 
+        self.conn = db.connect(**self.TEST_PARAMS)
         self.cursor = self.conn.cursor()    
     
-    @data(*SAVE_BOOK_TEST_DATA)
-    def test_save_book(self, data_list):
-        """Test save_book() function on test database"""
+    
+    def test_save_book_save(self):
+        """Test if save_book() saving data to db correctly"""
+        data_list = ('Title','Author','Kind','Publisher',1993,'Language',100,'ISBN')  
+    # Save it to database using function from db_functions
+        db_func.save_book(data_list, conn_params=self.TEST_PARAMS)
+    # Check saved record
+        self.cursor.execute('SELECT * FROM publications WHERE lib_id > 100;')
+        results = self.cursor.fetchone()
+        self.assertEqual(data_list, results[1:9])   
+    # Delete created test_record
+        self.cursor.execute('DELETE FROM publications WHERE lib_id > 100;')
+        self.conn.commit()
         
-        # Save it to database using function from db_functions
-        try:
+    def test_save_book_integrity_error(self):
+        """Test if save_book() responding with IntegrityError correctly"""   
+        data_list = (('Title','','Kind','Publisher',1993,'Language',100,'ISBN'),
+                    ('','Author','Kind','Publisher',1993,'Language',100,'ISBN'),
+                    ('Title','Author','Kind','',1993,'Language',100,'ISBN'))               
+        for data in data_list:
+            with self.assertRaises(db.IntegrityError):
+                db_func.save_book(data, conn_params=self.TEST_PARAMS) 
+    
+    def test_save_book_data_error(self):
+        """Test if save_book() responding with DataError correctly"""  
+        data_list = ('Title','Author','Kind','Publisher','','Language',100,'ISBN')
+        with self.assertRaises(db.DataError):
             db_func.save_book(data_list, conn_params=self.TEST_PARAMS)
+
+    def test_get_results_by(self):
+        """Test if get_results_by() returns valid data from db"""
+        data_list = (('lib_id','5', (5,'Bigfoot Lives','Hermy Ashbe','Adventure|Documentary|Drama','Dryden',2000,'Albanian','306','694852980-1',False)),
+                    ('author','Rosanna Agnew', (75,'2:37','Rosanna Agnew',None,'Atwood',2005,'Greek',None,None,False)),
+                    ('title','Moja Ksiazka', (None)))
+        for data in data_list:
+            for result in db_func.get_results_by(data[0],data[1]):
+                self.assertTupleEqual(result, data[2])
         
-            # Check saved record
-            self.cursor.execute('SELECT * FROM publications WHERE lib_id > 100;')
-            results = self.cursor.fetchone()
-            self.assertEqual(data_list, results[1:9])
-            
-            # Delete created test_record
-            self.cursor.execute('DELETE FROM publications WHERE lib_id > 100;')
-            self.conn.commit()
-        
-        # Check expections handling
-        except db.IntegrityError:
-            for item in data_list:
-                if item == '':
-                    self.index = data_list.index(item)
-            self.assertIn(self.index, (0,1,3,4))
-            
-        except db.DataError:
-            self.assertEqual(data_list[4],'')
-    
-    @data(*GET_RESULTS_TEST_DATA)
-    def test_get_results_by(self, data_list):
-        """Test if func returns valid data"""
-        # In try except use tested func in for loop, make asertion 
-        try:
-            for result in db_func.get_results_by(data_list[0],data_list[1]):
-                self.assertTupleEqual(result, data_list[2])
-        # Check exceptions handling
-        except db.DataError:
-            if data_list[0] == 'is_issued':
-                self.assertNotIsInstance(data_list[1], bool)
-            else:
-                self.assertNotIsInstance(data_list[1], int)
-    
-    @data(*DELETE_RECORD_TEST_DATA)
-    def test_delete_record_by(self, test_data):
-        """Test if func deletes record by given lib_id"""
-        try:
+    def test_get_results_by_data_error(self):
+        """Test if get_results_by() rises DataError correctly"""
+        data_list = (('lib_id', 'a'),
+                    ('is_issued', 5))
+        with self.assertRaises(db.DataError):
+            for data in data_list:
+                for result in db_func.get_results_by(data[0],data[1]):
+                    pass
+                    
+    def test_delete_record_by(self):
+        """Test if delete_record_by() deletes record by given lib_id"""
+        data_list = (100, '105')
+        for test_data in data_list:
             # Delete record with lib_id = test_data if exist
             self.cursor.execute(f'DELETE FROM publications WHERE lib_id = {test_data}')
             self.conn.commit()
@@ -115,14 +103,14 @@ class TestDbFunctions(unittest.TestCase):
             for record in self.cursor:
                 self.assertTrue(record == None)
         
-        # Check exception handling
-        except db.ProgrammingError:
-            self.assertNotIsInstance(test_data, int)
-                        
-            
-            
-            
-        
+    def test_delete_record_by_programming_error(self):
+        """Test if delete_record_by() raises programming error correctly"""
+        data_list = ('abc', 'text')
+        for test_data in data_list:
+            with self.assertRaises(db.ProgrammingError):
+                db_func.delete_record_by(test_data, conn_params=self.TEST_PARAMS)
+               
+                  
     def tearDown(self):
         self.cursor.close()
         self.conn.close()
@@ -130,6 +118,10 @@ class TestDbFunctions(unittest.TestCase):
         
 if __name__ == "__main__":
     unittest.main()
+    
+# Think about making separate class for each db_functions function
+# Verify test data for each method - some are not neccessary
+
             
         
     
