@@ -1,16 +1,7 @@
-# Library management system
-# Create MainWindow
-#   Create widgets
-#       Label/text 'Add book details'
-#       Button Add book details
-#       Button Delete book
-#       Button View book list
-#       Button Issue book to student
-#       Button Return book
-#       Button Exit
 
 from tkinter import Tk, Frame, Label, Button
-from buttons import book_details, delete_book
+from LibrarySystem.buttons import book_details, delete_book
+#pylint: disable=unused-variable
 
 class MainWindow(Frame):
     """main_window and all widgets"""

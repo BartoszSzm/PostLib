@@ -1,7 +1,6 @@
 """ All tests for db_functions file"""
 
 import unittest
-from unittest.case import skipIf
 from buttons import db_functions as db_func
 from ddt import ddt, data
 import psycopg2 as db

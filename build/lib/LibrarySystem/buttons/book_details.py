@@ -1,15 +1,8 @@
-# Book details class
-# Create book_details_window
-#   Create label - add book details
-#   Create 8 entries 
-#   Create 8 labels describing each entry
-#   Create accept and cancel button below
-
 from tkinter import Toplevel, messagebox, Frame, Label, Entry, Button
 from tkinter.constants import EW
 import psycopg2
-from buttons import db_functions as db
-
+from . import db_functions as db
+#pylint: disable=unused-variable
 
 class BookDetailsWindow(Frame):
     """book_details_window with all widgets"""
@@ -61,7 +54,7 @@ class BookDetailsWindow(Frame):
             
             entry_obj.grid(column=2, row=row_number)
             self.entries_obj.append(entry_obj)
-            row_number += 1
+            row_number += 1 
             
     def _accept_abort_buttons(self):
         """Create accept and cancel button"""
@@ -102,8 +95,7 @@ class BookDetailsWindow(Frame):
         """Return True if anwser to 'message' question is 'ok'"""
         answer = messagebox.askyesno(title=title,
                                 message=message)
-        if answer:
-            return True
+        return answer
                  
 # Run mainloop
 def start():

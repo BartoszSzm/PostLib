@@ -1,15 +1,9 @@
-# Delete book class
-# Create class for delete book
-#   Delete Book label
-#   Library ID label
-#   ID Entry
-#   Results textbox
-#   Accept/Cancel buttons
 
 from tkinter import Frame, Label, Entry, Button, Toplevel, messagebox
 from tkinter.constants import END
 from tkinter.ttk import Treeview
-from buttons import db_functions as db
+from . import db_functions as db
+#pylint: disable=unused-variable
 
 class DeleteBookWindow(Frame):
     """delete_book_window class and all widgets"""
@@ -64,53 +58,59 @@ class DeleteBookWindow(Frame):
     def _accept_abort_buttons(self):
         accept = Button(self, text = 'Accept', command = self._accept)
         abort = Button(self, text = 'Cancel', command = self._abort)
-        
         accept.grid()
         abort.grid()
     
     def _search(self):
-        """Search and view result in treeview"""
-        # Clear tree
+        """Search for record by given ID"""
+        # Clear results tree, get value from entry, change to int
         self.results_window.delete(*self.results_window.get_children())
-        
-        # Get value from entry - only numbers allowed
         self.lib_id = self.id_entry.get()
         try:
             self.lib_id = int(self.lib_id)
         except ValueError:
             info = messagebox.showerror('Error','ID must be a number...')
             return
- 
-        # Show results in tree
+        # Display results after all
+        self._display_results()
+        
+    def _display_results(self):
+        """Display records on tree"""
+        # Show results on tree
         for result in db.get_results_by('lib_id',self.lib_id):
             self.results_window.insert('', END, values=result)
         
-        # If no results throw info
-        if not self.results_window.get_children():
+        # If found something, set search flag to true, else show info
+        if self.results_window.get_children():
+            self.was_searched = True
+        else:
             info = messagebox.showinfo('Results',
                                        'No results matching given value.')
         
-        # Flag determines if search was performed
-        self.was_searched = True
-        
     def _accept(self):
         """Delete found record from db"""
+        # Delete if record with given lib_id exist, search was performed and 
+        # user accepts it
         
-        if not self.was_searched:
-            info = messagebox.showwarning('Info','Please search for record '
-                                          'first and check it.')
-            return
-        if self.results_window.get_children():
-            warning = messagebox.askyesno('Warning!','Deletion will be permanent.'
-                                    '\nAre you shure ?')
-            if warning:
-                try:
-                    db.delete_record_by(self.lib_id)
-                    deleted = messagebox.showinfo('Success','Record deleted successfully.')
-                except Exception as error:
-                    saving_error = messagebox.showerror('Error',error)
+        if self.was_searched:
+            if self.results_window.get_children():
+                warning = messagebox.askyesno('Warning!',f'Deletion of record' 
+                                    f'with ID:{self.lib_id} will be permanent.'
+                                    f' Are you shure ?')
+                if warning:
+                    try:
+                        db.delete_record_by(self.lib_id)
+                        deleted = messagebox.showinfo('Success',f'Record with '
+                                            f'ID:{self.lib_id} deleted '
+                                            f'successfully.')
+                    except Exception as error:
+                        saving_error = messagebox.showerror('Error',error)
+            else:
+                error = messagebox.showerror('Error',
+                                    f'Nothing found under ID:{self.lib_id}.')
         else:
-            error = messagebox.showerror('Error','Nothing found under given ID.')
+            info = messagebox.showwarning('Info','Please search for record '
+                                            'first and check it.')
     
     def _abort(self):
         self.master.destroy()

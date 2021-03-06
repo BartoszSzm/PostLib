@@ -1,7 +1,7 @@
 """File contains all test for BookDetailsWindow class"""
 
 import unittest
-from buttons import book_details
+from .. import buttons
 from tkinter import Tk
 
 class TestBookDetailsWindow(unittest.TestCase):
