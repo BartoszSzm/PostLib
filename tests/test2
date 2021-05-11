@@ -1,0 +1,9 @@
+from PIL import Image, ImageTk
+from tkinter import Label, Tk
+
+root = Tk()
+
+img = Image.open('./images/book_details.jpg')
+Label(root, image=img).grid()
+    
+root.mainloop()
