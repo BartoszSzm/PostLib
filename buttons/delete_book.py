@@ -11,7 +11,7 @@ class DeleteBookWindow(Frame):
         super().__init__(master)
         self.master = master
         self.grab_set()
-        self.grid()
+        self.grid(padx=5)
         self.create_widgets()
         
     def create_widgets(self):
@@ -23,7 +23,7 @@ class DeleteBookWindow(Frame):
         self._accept_abort_buttons()
         
     def _delete_book_label(self):
-        Label(self, text = "Delete Book").grid()
+        Label(self, text = "Delete Book", font='Calibri 14 bold').grid(pady=1)
     
     def _library_id_label(self):
         Label(self, text = "Library ID").grid()
@@ -53,7 +53,7 @@ class DeleteBookWindow(Frame):
             self.results_window.heading(col, text=text)
             self.results_window.column(col, width=width)
         
-        self.results_window.grid()
+        self.results_window.grid(pady=20)
         
     def _accept_abort_buttons(self):
         accept = Button(self, text = 'Accept', command = self._accept)
@@ -120,5 +120,6 @@ def start():
     root = Toplevel()
     delete_book_window = DeleteBookWindow(root)
     root.title('Delete Book')
-    root.geometry('1150x255')
+    root.geometry('1153x289')
+    root.resizable(width=False, height=False)
     root.mainloop()

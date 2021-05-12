@@ -1,7 +1,7 @@
 #pylint: disable=unused-wildcard-import
 
 from tkinter import (Button, Entry, Frame, Label, Radiobutton,
-                     StringVar, Toplevel, messagebox)
+                     StringVar, Toplevel, font, messagebox)
 from tkinter.constants import *
 from tkinter.ttk import Treeview
 
@@ -26,6 +26,7 @@ class BookListWindow(Frame):
         self._title_label()
         self._search_label()
         self._search_entry()
+        self._search_criteria_label()
         self._search_radiobuttons()
         self._search_button()
         self._search_tree()
@@ -33,12 +34,12 @@ class BookListWindow(Frame):
         
     def _title_label(self):
         """Big title label"""
-        Label(self, text='SEARCH PUBLICATIONS').grid(
-            column=0, row=0, columnspan=4, sticky=EW)
+        Label(self, text='SEARCH PUBLICATIONS', font='Calibri 14 bold').grid(
+            column=0, row=0, columnspan=4, sticky=EW, pady=10)
     
     def _search_label(self):
         """Label with information to search entry"""
-        Label(self, text='Search:').grid(
+        Label(self, text='Type phrase to search:', font='Calibri 11').grid(
             column=0, row=1, columnspan=4, sticky=EW)
     
     def _search_entry(self):
@@ -47,6 +48,10 @@ class BookListWindow(Frame):
         self.search_entry.grid(
             column=0, row=2, columnspan=4, sticky=EW, padx=300)
 
+    def _search_criteria_label(self):
+        Label(self, text='Search criterias:', font='Calibri 11').grid(
+            column=0, row=3, columnspan=4, sticky=EW, pady=10)
+
     def _search_radiobuttons(self):
         """Radiobuttons for selecting search criteria"""
         self.search_crit = StringVar(value='lib_id')
@@ -54,12 +59,12 @@ class BookListWindow(Frame):
                      'language','pages','isbn','is_issued']
         
         display_criterias = ['Library ID','Title','Author','Kind','Publisher',
-                             'Year of publish','Language','Pages','ISBN','Issued?']
+                             'Year of publish','Language','Pages','ISBN','Is issued? (True/False)']
         
-        grids = [(0,3),(0,4),(0,5),
-                 (1,3),(1,4),(1,5),
-                 (2,3),(2,4),(2,5),
-                 (3,3)]
+        grids = [(0,4),(0,5),(0,6),
+                 (1,4),(1,5),(1,6),
+                 (2,4),(2,5),(2,6),
+                 (3,4)]
         
         for (criteria, display_criteria, grid) in zip(criterias, display_criterias, grids):
             Radiobutton(self, 
@@ -70,7 +75,8 @@ class BookListWindow(Frame):
     def _search_button(self):
         """Button which run search engine"""
         self.search_button = Button(self, text='Search', command=self._search)
-        self.search_button.grid(column=0, row=6, columnspan=4, padx=500, sticky=EW)
+        self.search_button.grid(
+            column=0, row=7, columnspan=4, padx=500, pady=10, sticky=EW)
     
     def _search(self): 
         """Clear results window, get value from entry, run display_results"""
@@ -108,20 +114,21 @@ class BookListWindow(Frame):
             self.results_window.heading(col, text=text)
             self.results_window.column(col, width=width)
         
-        self.results_window.grid(column=0, row=7, columnspan=4)
+        self.results_window.grid(column=0, row=8, columnspan=4)
     
     def _abort_button(self):
         """Button which closing window"""
         Button(self, text='Cancel', command=self.master.destroy).grid(
-            column=0, row=8, columnspan=4, padx=500, sticky=EW)
+            column=0, row=9, columnspan=4, padx=500, pady=10, sticky=EW)
     
     
 def start():
     """Create and run view_book_list window"""
     root = Toplevel()
     book_list_window = BookListWindow(root)
-    root.geometry('1162x747')
+    root.geometry('1161x842')
     root.title('View book')
+    root.resizable(width=False, height=False)
     root.mainloop()
 
     
