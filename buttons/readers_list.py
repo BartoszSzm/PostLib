@@ -25,6 +25,7 @@ class ReadersList(Frame):
         self._title_label()
         self._search_label()
         self._search_entry()
+        self._search_criteria_label()
         self._search_radiobuttons()
         self._search_button()
         self._search_tree()
@@ -32,19 +33,23 @@ class ReadersList(Frame):
         
     def _title_label(self):
         """Big title label"""
-        Label(self, text='SEARCH READERS').grid(
-            column=0, row=0, columnspan=4, sticky=EW)
+        Label(self, text='SEARCH READERS', font='Calibri 14 bold').grid(
+            column=0, row=0, columnspan=4, sticky=EW, pady=10)
     
     def _search_label(self):
         """Label with information to search entry"""
-        Label(self, text='Search:').grid(
+        Label(self, text='Type phrase to search:', font='Calibri 11').grid(
             column=0, row=1, columnspan=4, sticky=EW)
     
     def _search_entry(self):
         """Entry for searching phrase"""
         self.search_entry = Entry(self)
         self.search_entry.grid(
-            column=0, row=2, columnspan=4, sticky=EW, padx=300)
+            column=0, row=2, columnspan=4, sticky=EW, padx=150)
+    
+    def _search_criteria_label(self):
+        Label(self, text='Search criterias:', font='Calibri 11').grid(
+            column=0, row=3, columnspan=4, sticky=EW, pady=10)
 
     def _search_radiobuttons(self):
         """Radiobuttons for selecting search criteria"""
@@ -55,20 +60,20 @@ class ReadersList(Frame):
         display_criterias = ['Reader ID','Full Name','Phone Number','Email','ID Card',
                              'Total Penalty']
         
-        grids = [(0,3),(0,4),(0,5),
-                 (1,3),(1,4),(1,5)]
+        grids = [(0,4),(0,5),(0,6),
+                 (1,4),(1,5),(1,6)]
 
         
         for (criteria, display_criteria, grid) in zip(criterias, display_criterias, grids):
             Radiobutton(self, 
                         text=display_criteria, 
                         variable=self.search_crit, 
-                        value=criteria).grid(column=grid[0],row=grid[1], sticky=W)    
+                        value=criteria).grid(column=grid[0],row=grid[1], sticky=W, padx=140)    
     
     def _search_button(self):
         """Button which run search engine"""
         self.search_button = Button(self, text='Search', command=self._search)
-        self.search_button.grid(column=0, row=6, columnspan=4, padx=500, sticky=EW)
+        self.search_button.grid(column=0, row=7, columnspan=4, padx=300, pady=10, sticky=EW)
     
     def _search(self): 
         """Clear results window, get value from entry, run display_results"""
@@ -91,7 +96,7 @@ class ReadersList(Frame):
         cols = ['#1', '#2', '#3', '#4', '#5', '#6']
         cols_text = ['Reader ID','Full Name','Phone Number','Email','ID Card',
                      'Total Penalty']
-        cols_width = [50, 200, 120, 90, 120, 150]
+        cols_width = [80, 200, 120, 90, 120, 150]
         
         self.results_window = Treeview(self, columns=cols, show='headings',
                                        height=25)
@@ -101,18 +106,18 @@ class ReadersList(Frame):
             self.results_window.heading(col, text=text)
             self.results_window.column(col, width=width)
         
-        self.results_window.grid(column=0, row=7, columnspan=4)
+        self.results_window.grid(column=0, row=8, columnspan=4)
     
     def _abort_button(self):
         """Button which closing window"""
         Button(self, text='Cancel', command=self.master.destroy).grid(
-            column=0, row=8, columnspan=4, padx=500, sticky=EW)
+            column=0, row=9, columnspan=4, padx=300, pady=10, sticky=EW)
     
     
 def start():
     """Create and run readers list window"""
     root = Toplevel()
     reader_list_window = ReadersList(root)
-    root.geometry('1162x747')
+    root.geometry('827x842')
     root.title('Readers list')
     root.mainloop()

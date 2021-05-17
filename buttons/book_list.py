@@ -1,7 +1,7 @@
 #pylint: disable=unused-wildcard-import
 
 from tkinter import (Button, Entry, Frame, Label, Radiobutton,
-                     StringVar, Toplevel, font, messagebox)
+                     StringVar, Toplevel, messagebox)
 from tkinter.constants import *
 from tkinter.ttk import Treeview
 
