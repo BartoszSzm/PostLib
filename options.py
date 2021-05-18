@@ -1,5 +1,13 @@
-"""File contains options variables"""
+"""File contains options variables definitions. Data is aquired from config.ini"""
 
-PENALTY = 0.2
-ISSUE_LIMIT = 30
-PASSWORD = ''
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+PENALTY = float(config['OTHERS']['penalty'])
+ISSUE_LIMIT = int(config['OTHERS']['issue_limit'])
+PASSWORD = str(config['OTHERS']['password'])
+DB_CONN_PARAMS = dict(config['DB_CONN_PARAMS'])
+
+

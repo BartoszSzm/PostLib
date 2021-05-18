@@ -88,7 +88,9 @@ if __name__ == "__main__":
 #TODO - create another window 'options' where current penalty per day could be changed and issue limit
 #       also there will be db connection params
 
-#TODO - think about auto-resizing windows
+#TODO - 2 test fails - one because one more label added, find out why second
+
+
 
 
 

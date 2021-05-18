@@ -1,15 +1,9 @@
 # File contains functions prepared to retrieve or save data from/to database
 
 import psycopg2 as db
+from LMS.options import DB_CONN_PARAMS
 
-
-PARAMS = {
-'database' : 'pi',
-'user' : 'pi',
-'password' : 'Haslolinux4',
-'host' : '192.168.0.150',
-'port' : '5432'
-}
+PARAMS = DB_CONN_PARAMS
 
 class PostgresConnectionManager():
     """Context manager to connect to PostgresSQL. Set 'returns' value to True
