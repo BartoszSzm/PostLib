@@ -126,7 +126,6 @@ def start():
     """Create and run view_book_list window"""
     root = Toplevel()
     book_list_window = BookListWindow(root)
-    root.geometry('1161x842')
     root.title('View book')
     root.resizable(width=False, height=False)
     root.mainloop()

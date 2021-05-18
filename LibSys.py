@@ -79,10 +79,16 @@ def start():
     
     main_window = MainWindow(root)
     root.title('Library Management System')
-    root.geometry(f'{WIN_WIDTH}x{WIN_HEIGHT}')
     root.mainloop()
-
+    
 # Run app
 if __name__ == "__main__":
     start()
+    
+#TODO - create another window 'options' where current penalty per day could be changed and issue limit
+#       also there will be db connection params
+
+#TODO - think about auto-resizing windows
+
+
 

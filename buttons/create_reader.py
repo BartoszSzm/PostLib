@@ -45,21 +45,21 @@ class CreateReader(Frame):
                 entry = Entry(self, highlightbackground='red',highlightthickness=2)
             else:
                 entry = Entry(self)
-            entry.grid(column=1,row=(entry_number + 1))
+            entry.grid(column=1,row=(entry_number + 1), padx=20)
             entries_obj.append(entry)
         return entries_obj
     
     def _info_label(self):
         Label(self, text='Highlighted fields cannot be empty.', font='Calibri 11').grid(
-            column=0, columnspan=2, row=5, pady=10, padx=5, sticky=E)
+            column=0, columnspan=2, row=5, pady=10, padx=60, sticky=E)
     
     def _accept_button(self):
         """Button accepting input data, run save to db"""
-        Button(self,text='Accept',command=self._save_reader).grid(column=0,row=6, sticky=E)
+        Button(self,text='Accept',command=self._save_reader).grid(column=0,row=6, pady=15, sticky=E)
     
     def _abort_button(self):
         """Button closes window"""
-        Button(self,text='Abort',command=self.master.destroy).grid(column=1,row=6, sticky=W, padx=40)
+        Button(self,text='Abort',command=self.master.destroy).grid(column=1,row=6, sticky=W, pady=15, padx=40)
     
     def _get_entries_data(self, entries):
         """Return list of given data in entries"""
@@ -97,7 +97,6 @@ def start():
     root = Toplevel()
     create_reader_window = CreateReader(root)
     root.title('Create reader')
-    root.geometry("355x319")
     root.resizable(width=False, height=False)
     root.mainloop()
     

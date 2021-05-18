@@ -1,7 +1,7 @@
 """Window where end user can return book to the library stock"""
 
 from datetime import date, datetime
-from tkinter import Entry, Frame, Toplevel, Label, Button, messagebox, simpledialog
+from tkinter import Entry, Frame, Toplevel, Label, Button, font, messagebox, simpledialog
 from tkinter.ttk import Treeview
 import LMS.options as options
 from LMS.buttons import db_functions as db
@@ -27,13 +27,13 @@ class Entries(Frame):
     
     def widgets_grids(self):
         """Grid all widgets"""
-        self.title_label.grid(column=0, row=0,columnspan=3)
-        self.reader_id_label.grid(column=0, row=1, sticky='e')
+        self.title_label.grid(column=0, row=0,columnspan=3, pady=10)
+        self.reader_id_label.grid(column=0, row=1, sticky='e', pady=10)
         self.penalty_label.grid(column=0, row=2, sticky='e')
         self.reader_id_entry.grid(column=1, row=1, sticky='w')
         self.penalty_entry.grid(column=1, row=2, sticky='w')
         self.edit_button.grid(column=2, row=2, sticky='w')
-        self.info_label.grid(column=0, row=3, columnspan=3)
+        self.info_label.grid(column=0, row=3, columnspan=3, pady=10)
         
     def create_widgets(self):
         """Call all widget generating functions"""
@@ -46,13 +46,13 @@ class Entries(Frame):
         self.info_label = self._info_label()
         
     def _title_label(self): 
-        return Label(self, text='Return Book')
+        return Label(self, text='Return Book', font='Calibri 14 bold')
     
     def _reader_id_label(self): 
-        return Label(self,text='Reader ID')   
+        return Label(self,text='Reader ID', font='Calibri 12')   
     
     def _penalty_label(self):
-        return Label(self,text='Penalty')
+        return Label(self,text='Penalty', font='Calibri 12')
     
     def _reader_id_entry(self): 
         return Entry(self)
@@ -95,7 +95,7 @@ class Entries(Frame):
                                  parent=self.master)
                   
     def _info_label(self): 
-        return Label(self,text='Select publication to be returned:')
+        return Label(self,text='Select publication to be returned:', font='Calibri 12')
 
 
 class ResultsTree(Frame):
@@ -117,7 +117,7 @@ class ResultsTree(Frame):
     
     def _widgets_grids(self):
         """Grid all widgets"""
-        self.results_tree.grid()
+        self.results_tree.grid(padx=10)
         self.search_button.grid()
         self.accept_button.grid()
         self.abort_button.grid()
@@ -129,7 +129,7 @@ class ResultsTree(Frame):
                      'Issue date','Issue limit','Date of return','Delay','Imposed penalty']
         cols_width = [300, 100, 120, 80, 90, 90, 100, 100, 120, 50, 140]
         results_window = Treeview(self, columns=cols, show='headings',
-                                       height=12, selectmode='browse')
+                                       height=15, selectmode='browse')
         results_window.bind('<<TreeviewSelect>>',self._insert_penalty)
         #Treeview headings
         for (col,text,width) in zip(cols, cols_text, cols_width):
@@ -232,8 +232,8 @@ class ResultsTree(Frame):
 def start():
     """Run window"""
     root = Toplevel()
+    root.resizable(width=False, height=False)
     entries_buttons = Entries(root)
     entries_buttons.run()
-    root.geometry('1301x486')
     root.title('Return Book')
     root.mainloop()

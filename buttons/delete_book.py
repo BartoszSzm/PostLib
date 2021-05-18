@@ -58,8 +58,8 @@ class DeleteBookWindow(Frame):
     def _accept_abort_buttons(self):
         accept = Button(self, text = 'Accept', command = self._accept)
         abort = Button(self, text = 'Cancel', command = self.master.destroy)
-        accept.grid()
-        abort.grid()
+        accept.grid(pady=10)
+        abort.grid(pady=10)
     
     def _search(self):
         """Search for record by given ID"""
@@ -120,6 +120,5 @@ def start():
     root = Toplevel()
     delete_book_window = DeleteBookWindow(root)
     root.title('Delete Book')
-    root.geometry('1153x289')
     root.resizable(width=False, height=False)
     root.mainloop()

@@ -117,7 +117,7 @@ class ReadersList(Frame):
 def start():
     """Create and run readers list window"""
     root = Toplevel()
+    root.resizable(width=False, height=False)
     reader_list_window = ReadersList(root)
-    root.geometry('827x842')
     root.title('Readers list')
     root.mainloop()

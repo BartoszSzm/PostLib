@@ -41,38 +41,42 @@ class IssueBook(Frame):
         
     def _title_label(self):
         """Label with window name"""
-        Label(self, text='Issue Book').grid(column=0,row=0,columnspan=3)
+        Label(self, text='Issue Book', font='Calibri 14 bold').grid(column=0,row=0,
+            columnspan=2, pady=10)
         
     def _entry_labels(self):
         """Labels defining each entry"""
-        Label(self, text='Library ID').grid(column=0, row=1)
-        Label(self, text='Reader ID').grid(column=0, row=2)
-        Label(self, text='Issue limit').grid(column=0, row=3)
+        Label(self, text='Library ID', font='Calibri 12').grid(column=0, row=1, padx=30)
+        Label(self, text='Reader ID', font='Calibri 12').grid(column=0, row=2, pady=10, padx=30)
+        Label(self, text='Issue limit', font='Calibri 12').grid(column=0, row=3, padx=30)
         
     def _info_labels(self):
         """Labels with info about current issue options"""
-        Label(self, text=f'Current penalty : {self.penalty}$/day').grid(column=2, row=1)
-        Label(self, text=f'Current issue limit: {self.issue_limit} days').grid(column=2, row=2)
+        Label(self, 
+              text=f'Current penalty : {self.penalty}$/day', 
+              font='Calibri 11 italic').grid(column=0, row=5, columnspan=2, padx=30)
+        
+        Label(self, 
+              text=f'Current issue limit: {self.issue_limit} days',
+              font='Calibri 11 italic').grid(column=0, columnspan=2, row=6, padx=30, pady=15)
         
     def _entries(self, return_limit):
         """Create entries for each input data"""
         lib_id = Entry(self)
         reader_id = Entry(self)
-        issue_limit = DateEntry(self, 
-                                date_pattern='y-mm-dd',
-                                year=return_limit.year,
-                                month=return_limit.month,
-                                day=return_limit.day) #TODO - refactor it, use .configure(), show kwargs with .keys() function
+        issue_limit = DateEntry(self)
+        issue_limit.set_date(self.return_limit)
+        issue_limit.configure(width=18, date_pattern='yyyy-mm-dd')
         
-        lib_id.grid(column=1, row=1)
-        reader_id.grid(column=1, row=2)
-        issue_limit.grid(column=1, row=3)
+        lib_id.grid(column=1, row=1, padx=20)
+        reader_id.grid(column=1, row=2, padx=20)
+        issue_limit.grid(column=1, row=3, padx=20)
         # Must be in this order!
         return [lib_id, reader_id, issue_limit]
     
     def _accept_button(self):
         """Button which accepts new issue creation"""
-        Button(self, text='Accept', command=self._save_issue).grid(column=0, row=4)
+        Button(self, text='Accept', command=self._save_issue).grid(column=0, row=4, pady=10)
     
     def _get_entries_data(self):
         """Return all data from entries"""
@@ -114,14 +118,14 @@ class IssueBook(Frame):
         
     def _abort_button(self):
         """Close window button"""
-        Button(self, text='Abort', command=self.master.destroy).grid(column=1, row=4)
+        Button(self, text='Abort', command=self.master.destroy).grid(column=1, row=4, pady=10)
     
 def start():
     """Create and run main window"""
     root = Toplevel()
+    root.resizable(width=False, height=False)
     issue_book_window = IssueBook(root)
     root.title('Issue Book')
-    root.geometry('469x404')
     root.mainloop()
     
 # TODO - make infomessages when any of entries left blank (all NOT NULL)

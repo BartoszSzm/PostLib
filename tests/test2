@@ -1,14 +1,7 @@
-from PIL import Image
-from PIL.ImageTk import PhotoImage
-from tkinter import Label, Tk
+from tkcalendar import DateEntry 
+from tkinter import Tk
 
 root = Tk()
-
-img_obj = Image.open('./images/main.jpg')
-img_obj = img_obj.resize(size=(800, 200))
-img = PhotoImage(img_obj)
-mylabel = Label(root, image=img)
-mylabel.grid(0)
-
-    
-root.mainloop()
+date_entry = DateEntry(root)
+for element in date_entry.keys():
+    print(element)
