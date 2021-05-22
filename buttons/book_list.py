@@ -5,10 +5,10 @@ from tkinter import (Button, Entry, Frame, Label, Radiobutton,
 from tkinter.constants import *
 from tkinter.ttk import Treeview
 
-import psycopg2
+from psycopg2 import errorcodes
+from psycopg2.errors import lookup
 
 from LMS.buttons import db_functions as db
-from psycopg2.errors import InvalidTextRepresentation
 
 #pylint: disable=unused-variable
 
@@ -94,11 +94,12 @@ class BookListWindow(Frame):
             
             # Raise error when nothing found 
             if not self.results_window.get_children():
-                raise psycopg2.errors.InvalidTextRepresentation
-                
-        except psycopg2.errors.InvalidTextRepresentation:
                 info = messagebox.showinfo('Results',
-                        'No results matching given value.', parent=self.master)  
+                        'No results matching given value.', parent=self.master) 
+                
+        except lookup(errorcodes.INVALID_TEXT_REPRESENTATION):
+                info = messagebox.showerror('Error',
+                        'Incorrect value.', parent=self.master)  
     
     def _search_tree(self):
         """Show results on tree"""

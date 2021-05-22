@@ -1,11 +1,14 @@
 #pylint: disable=unused-wildcard-import
 
+from os import error
 from tkinter import (Button, Entry, Frame, Label, Radiobutton,
                      StringVar, Toplevel, messagebox)
 from tkinter.constants import *
 from tkinter.ttk import Treeview
 
 import psycopg2
+from psycopg2 import errorcodes
+from psycopg2.errors import lookup
 
 from LMS.buttons import db_functions as db
 
@@ -85,12 +88,16 @@ class ReadersList(Frame):
     def _display_results(self): 
         """Display results on tree"""
         # Use get_results_by from db_functions to get results from db
-        for result in db.get_results_by(self.search_crit.get(), self.phrase, table='person'):
-            self.results_window.insert('', END, values=result)
-            
-        if not self.results_window.get_children():
-            messagebox.showinfo('Results',
-                    'No results matching given value.', parent=self.master)  
+        try:
+            for result in db.get_results_by(self.search_crit.get(), self.phrase, table='person'):
+                self.results_window.insert('', END, values=result)
+                
+            if not self.results_window.get_children():
+                messagebox.showinfo('Results',
+                        'No results matching given value.', parent=self.master)
+        
+        except lookup(errorcodes.INVALID_TEXT_REPRESENTATION):
+            messagebox.showerror('Error!', 'Incorrect value.', parent=self.master)
     
     def _search_tree(self):
         """Show results on tree"""
