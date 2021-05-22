@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import MagicMock, Mock
 
 from psycopg2.errors import lookup
-from LMS.buttons import return_book
+from LMS.buttons import return_book, db_functions
 from tkinter import Tk, messagebox
 from freezegun import freeze_time
 
@@ -86,10 +86,12 @@ class TestEntries(unittest.TestCase):
 class TestResultsTree(unittest.TestCase):
     """All tests for ResultsTree class"""
     def setUp(self):
+        self.show_issues = db_functions.show_issues
         self.root = Tk()
         self.window = return_book.Entries(self.root)
         self.window.run()
         self.window = self.window.results_tree
+
 
     def test_results_tree_widget(self):
         """Test if treeview was created correctly"""
@@ -169,7 +171,7 @@ class TestResultsTree(unittest.TestCase):
     def test_display_results_invalid_text_representation(self):
         """Test if method correctly raises error when Reader ID is incorrect"""
         return_book.messagebox.showerror = Mock()
-        self.window.entries_window.reader_id_entry.insert(0,'abc')
+        self.window.entries_window.reader_id_entry.insert(0,'abc')  
         result = self.window._display_results()
         self.assertEqual(result, 'INVALID_TEXT_REPRESENTATION')
         
@@ -220,6 +222,7 @@ class TestResultsTree(unittest.TestCase):
         self.assertEqual(result, 'PUBLICATION_RETURNED')
           
     def tearDown(self):
+        return_book.db.show_issues = self.show_issues
         self.root.destroy()
         
 

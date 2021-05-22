@@ -1,13 +1,11 @@
 """All test for create_reader window"""
 
 import unittest
-from tkinter import Button, Entry, Label, Tk
+from tkinter import Entry, Label, Tk
 
-import psycopg2
 from psycopg2 import errorcodes
 from psycopg2.errors import lookup
 from LMS.buttons import create_reader
-from LMS.buttons.create_reader import CreateReader
 from unittest.mock import Mock
 
 class TestCreateReader(unittest.TestCase):
@@ -23,7 +21,7 @@ class TestCreateReader(unittest.TestCase):
         """Test if class creates proper labels amount"""
         labels_list = [label for label in self.create_reader_window.winfo_children() 
                        if isinstance(label, Label)]
-        self.assertEqual(len(labels_list), 5)    
+        self.assertEqual(len(labels_list), 6)    
     
     def test_create_entries_amount(self):
         """Test created entries amount"""

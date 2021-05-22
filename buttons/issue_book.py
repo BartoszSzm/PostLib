@@ -20,6 +20,7 @@ class IssueBook(Frame):
         self.grab_set()
         self.initialize_options()
         self.create_widgets()
+        self.master.bind('<Return>', lambda event: self._save_issue())
     
     def initialize_options(self):
         self.penalty = options.PENALTY

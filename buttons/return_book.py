@@ -1,7 +1,7 @@
 """Window where end user can return book to the library stock"""
 
 from datetime import date, datetime
-from tkinter import Entry, Frame, Toplevel, Label, Button, font, messagebox, simpledialog
+from tkinter import Entry, Frame, Toplevel, Label, Button, messagebox, simpledialog
 from tkinter.ttk import Treeview
 import LMS.options as options
 from LMS.buttons import db_functions as db
@@ -86,7 +86,7 @@ class Entries(Frame):
         pass_ans = simpledialog.askstring('Password',
                                           'Enter password:', show='*', 
                                           parent=self.master)
-        if pass_ans == options.PASSWORD:
+        if str(pass_ans) == options.PASSWORD:
             self.penalty_entry.configure(state='normal')
             self.corr_pass = True
             self.edit_button.grid_forget()
@@ -107,6 +107,7 @@ class ResultsTree(Frame):
         self.grid()
         self._create_widgets()
         self._widgets_grids()
+        self.master.bind('<Return>', lambda event: self._search())
     
     def _create_widgets(self):
         """Call all widget generating functions"""
@@ -197,6 +198,7 @@ class ResultsTree(Frame):
             messagebox.showerror(title='Error!',
                                  message=f'An error occurred: {exc_info()[0]}',
                                  parent=self.master)
+            return 'OTHER_ERROR'
     
     def _accept_button(self): 
         """Save data to db"""

@@ -20,6 +20,7 @@ class ReadersList(Frame):
         self.grab_set()
         self.grid(padx=10)
         self.create_widgets()
+        self.master.bind('<Return>', lambda event: self._search())
     
     def create_widgets(self):
         self._title_label()

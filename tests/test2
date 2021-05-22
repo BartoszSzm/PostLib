@@ -1,7 +1,3 @@
-from tkcalendar import DateEntry 
-from tkinter import Tk
+PASSWORD = ''
 
-root = Tk()
-date_entry = DateEntry(root)
-for element in date_entry.keys():
-    print(element)
+print(PASSWORD)

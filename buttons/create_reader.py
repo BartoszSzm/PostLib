@@ -15,6 +15,7 @@ class CreateReader(Frame):
         self.grab_set()
         self.grid()
         self.create_widgets()
+        self.master.bind('<Return>', lambda event: self._save_reader())
         
     def create_widgets(self):
         """Create all widgets"""

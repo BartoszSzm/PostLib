@@ -79,8 +79,6 @@ def return_book(issue_id, returned_date, imposed_penalty, conn_params=PARAMS):
                                 f"WHERE issue_id = {issue_id}")
 
 
-#TODO - error when db connection fails
-#TODO - make database connector
             
 
     

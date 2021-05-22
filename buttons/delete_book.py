@@ -13,6 +13,7 @@ class DeleteBookWindow(Frame):
         self.grab_set()
         self.grid(padx=5)
         self.create_widgets()
+        self.master.bind('<Return>', lambda event: self._search())
         
     def create_widgets(self):
         self._delete_book_label()

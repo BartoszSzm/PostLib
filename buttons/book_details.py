@@ -12,6 +12,7 @@ class BookDetailsWindow(Frame):
         self.grab_set()
         self.grid()
         self.create_widgets()
+        self.master.bind('<Return>', lambda event: self._accept())
     
     def create_widgets(self):
         """Create all widgets in window"""
@@ -19,8 +20,8 @@ class BookDetailsWindow(Frame):
         self._entries_labels()
         self._entries()
         self._accept_abort_buttons()
-        self._info_label()
-        
+        self._info_label()      
+       
     def _book_details_label(self):
         """Create label 'add book details'"""
         Label(self, text = "Add Book Details", font='Calibri 16 bold').grid(column=1, row=0, 
