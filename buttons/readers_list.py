@@ -1,12 +1,10 @@
 #pylint: disable=unused-wildcard-import
 
-from os import error
 from tkinter import (Button, Entry, Frame, Label, Radiobutton,
                      StringVar, Toplevel, messagebox)
 from tkinter.constants import *
 from tkinter.ttk import Treeview
 
-import psycopg2
 from psycopg2 import errorcodes
 from psycopg2.errors import lookup
 

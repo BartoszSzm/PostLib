@@ -2,7 +2,7 @@
 # pylint: disable=unused-variable
 
 from tkinter import Entry, Toplevel, Frame, Button, Label, messagebox
-from tkinter.constants import E, EW, W
+from tkinter.constants import *
 from LMS.buttons.db_functions import save_reader
 from psycopg2.errors import lookup
 from psycopg2 import errorcodes

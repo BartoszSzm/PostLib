@@ -5,6 +5,7 @@ import unittest
 from unittest.case import TestCase
 
 from LMS.buttons import db_functions as db_func
+from LMS import options
 
 import psycopg2 as db
 from psycopg2.errors import lookup
@@ -13,13 +14,7 @@ from psycopg2 import errorcodes
 from datetime import date, timedelta
 #pylint: disable=unused-variable 
 
-TEST_PARAMS = {
-'database' : 'test',
-'user' : 'pi',
-'password' : 'Haslolinux4',
-'host' : '192.168.0.150',
-'port' : '5432'
-}
+TEST_PARAMS = options.TEST_DB_CONN_PARAMS
 
 class TestContextManager(unittest.TestCase):
     """Test all db functions"""
