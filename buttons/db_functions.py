@@ -36,8 +36,13 @@ def save_book(data, conn_params=PARAMS):
 def get_results_by(parameter, value, table='publications', conn_params=PARAMS):
     """Returns records by given parameter from publications"""
     with PostgresConnectionManager(conn_params, returns=True) as postgres:
-        postgres.cursor.execute(f"SELECT * FROM {table} "
-                                f"WHERE {parameter}='{value}';")
+        if parameter in ('title', 'author', 'kind', 'publisher', 'language',
+                         'full_name', 'email'):
+                postgres.cursor.execute(f"SELECT * FROM {table} "
+                        f"WHERE {parameter} LIKE '{value+'%'}';")
+        else:
+            postgres.cursor.execute(f"SELECT * FROM {table} "
+                        f"WHERE {parameter}='{value}';")       
         for result in postgres.cursor:
             yield result
 
