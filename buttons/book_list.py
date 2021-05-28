@@ -94,12 +94,14 @@ class BookListWindow(Frame):
             
             # Raise error when nothing found 
             if not self.results_window.get_children():
-                info = messagebox.showinfo('Results',
-                        'No results matching given value.', parent=self.master) 
+                messagebox.showinfo('Results',
+                       'No results matching given value.', parent=self.master)
+                return 'NOTHING_FOUND' 
                 
         except lookup(errorcodes.INVALID_TEXT_REPRESENTATION):
-                info = messagebox.showerror('Error',
-                        'Incorrect value.', parent=self.master)  
+                messagebox.showerror('Error',
+                        'Incorrect value.', parent=self.master)
+                return 'INVALID_TEXT_REPRESENTATION'  
     
     def _search_tree(self):
         """Show results on tree"""
