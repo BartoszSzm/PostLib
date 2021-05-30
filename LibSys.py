@@ -1,3 +1,4 @@
+from buttons import issues_list
 from tkinter import Tk, Frame, Label, Button
 from tkinter.constants import SUNKEN
 
@@ -46,6 +47,8 @@ class MainWindow(Frame):
                               command = readers_list.start, font='Calibri 12', overrelief=SUNKEN)
         self.issue_book_button = Button(self,text = "Issue Book", 
                               command = issue_book.start, font='Calibri 12', overrelief=SUNKEN)
+        self.issues_list_button = Button(self,text = "Issues List", 
+                              command = issues_list.start, font='Calibri 12', overrelief=SUNKEN)
         self.return_book_button = Button(self,text = "Return Book", 
                               command = return_book.start, font='Calibri 12', overrelief=SUNKEN)
         self.exit_button_button = Button(self,text = "Exit", 
@@ -61,7 +64,8 @@ class MainWindow(Frame):
         self.readers_list_button.grid(column=1, row=3, padx=50, pady=10)
         
         self.issue_book_button.grid(column=2, row=2, padx=50, pady=10)
-        self.return_book_button.grid(column=2, row=3, padx=50, pady=10)
+        self.issues_list_button.grid(column=2, row=3, padx=50, pady=10)
+        self.return_book_button.grid(column=2, row=4, padx=50, pady=10)
         
         self.exit_button_button.grid(column=1, row=5, padx=50, pady=80)        
         

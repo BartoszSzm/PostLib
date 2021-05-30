@@ -105,7 +105,7 @@ class ReadersList(Frame):
         cols_width = [80, 200, 120, 90, 120, 150]
         
         self.results_window = Treeview(self, columns=cols, show='headings',
-                                       height=25)
+                                       height=15)
         
         #Treeview headings
         for (col,text,width) in zip(cols, cols_text, cols_width):

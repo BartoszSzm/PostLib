@@ -13,7 +13,7 @@ from LMS.buttons import db_functions as db
 #pylint: disable=unused-variable
 
 
-class BookListWindow(Frame):
+class IssuesList(Frame):
     """Main class contains all window code"""
     def __init__(self, master):
         super().__init__(master)
@@ -35,7 +35,7 @@ class BookListWindow(Frame):
         
     def _title_label(self):
         """Big title label"""
-        Label(self, text='SEARCH PUBLICATIONS', font='Calibri 14 bold').grid(
+        Label(self, text='SEARCH ISSUES', font='Calibri 14 bold').grid(
             column=0, row=0, columnspan=4, sticky=EW, pady=10)
     
     def _search_label(self):
@@ -48,36 +48,35 @@ class BookListWindow(Frame):
         self.search_entry = Entry(self)
         self.search_entry.grid(
             column=0, row=2, columnspan=4, sticky=EW, padx=300)
-
+    
     def _search_criteria_label(self):
         Label(self, text='Search criterias:', font='Calibri 11').grid(
             column=0, row=3, columnspan=4, sticky=EW, pady=10)
 
     def _search_radiobuttons(self):
         """Radiobuttons for selecting search criteria"""
-        self.search_crit = StringVar(value='lib_id')
-        criterias = ['lib_id','title','author','kind','publisher','year_of_publish',
-                     'language','pages','isbn','is_issued']
+        self.search_crit = StringVar(value='reader_id')
+        criterias = ['issue_id', 'lib_id', 'reader_id', 'issue_date', 'issue_limit',
+                     'returned_date', 'delay', 'imposed_penalty']
         
-        display_criterias = ['Library ID','Title','Author','Kind','Publisher',
-                             'Year of publish','Language','Pages','ISBN','Is issued? (True/False)']
+        display_criterias = ['Issue ID', 'Library ID', 'Reader ID', 'Issue Date',
+                             'Issue limit', 'Returned date', 'Delay', 'Imposed Penalty']
         
         grids = [(0,4),(0,5),(0,6),
                  (1,4),(1,5),(1,6),
-                 (2,4),(2,5),(2,6),
-                 (3,4)]
+                 (2,4),(2,5)]
+
         
         for (criteria, display_criteria, grid) in zip(criterias, display_criterias, grids):
             Radiobutton(self, 
                         text=display_criteria, 
                         variable=self.search_crit, 
-                        value=criteria).grid(column=grid[0],row=grid[1], sticky=W)    
+                        value=criteria).grid(column=grid[0],row=grid[1], sticky=W, padx=70)    
     
     def _search_button(self):
         """Button which run search engine"""
         self.search_button = Button(self, text='Search', command=self._search)
-        self.search_button.grid(
-            column=0, row=7, columnspan=4, padx=500, pady=10, sticky=EW)
+        self.search_button.grid(column=0, row=7, columnspan=4, padx=500, pady=10, sticky=EW)
     
     def _search(self): 
         """Clear results window, get value from entry, run display_results"""
@@ -89,26 +88,22 @@ class BookListWindow(Frame):
         """Display results on tree"""
         # Use get_results_by from db_functions to get results from db
         try:
-            for result in db.get_results_by(self.search_crit.get(), self.phrase):
+            for result in db.get_results_by(self.search_crit.get(), self.phrase, table='issue'):
                 self.results_window.insert('', END, values=result)
-            
-            # Raise error when nothing found 
+                
             if not self.results_window.get_children():
                 messagebox.showinfo('Results',
-                       'No results matching given value.', parent=self.master)
-                return 'NOTHING_FOUND' 
-                
+                        'No results matching given value.', parent=self.master)
+        
         except lookup(errorcodes.INVALID_TEXT_REPRESENTATION):
-                messagebox.showerror('Error',
-                        'Incorrect value.', parent=self.master)
-                return 'INVALID_TEXT_REPRESENTATION'  
+            messagebox.showerror('Error!', 'Incorrect value.', parent=self.master)
     
     def _search_tree(self):
         """Show results on tree"""
-        cols = ['#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8', '#9', '#10']
-        cols_text = ['ID','Title','Author','Kind','Publisher',
-                     'Year of publish','Language','Pages','ISBN','Issued?']
-        cols_width = [50, 200, 120, 90, 120, 150, 100, 70, 150, 90]
+        cols = ['#1', '#2', '#3', '#4', '#5', '#6', '#7', '#8']
+        cols_text = ['Issue ID', 'Library ID', 'Reader ID', 'Issue date', 'Issue limit',
+                     'Returned date', 'Delay', 'Imposed penalty']
+        cols_width = [80, 200, 120, 90, 120, 150, 90, 140]
         
         self.results_window = Treeview(self, columns=cols, show='headings',
                                        height=15)
@@ -127,12 +122,9 @@ class BookListWindow(Frame):
     
     
 def start():
-    """Create and run view_book_list window"""
+    """Create and run issues list window"""
     root = Toplevel()
-    book_list_window = BookListWindow(root)
-    root.title('View book')
     root.resizable(width=False, height=False)
+    issues_list_window = IssuesList(root)
+    root.title('Issues List')
     root.mainloop()
-
-    
-    

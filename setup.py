@@ -17,6 +17,6 @@ setup(
 #TODO - THINK ABOUT NAME OF APP
 #TODO - Now app can be installed via pip3 install (dir with setup.py), think about database setup
 
-#TODO - Make tests for viewing things 
 #TODO - Create 'Browse issues' window - realy needed
 #TODO - Create pg_dump file with db and test db
+#TODO - On github in instruction write about how to get all records 

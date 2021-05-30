@@ -1,4 +1,0 @@
-from LMS.buttons import db_functions
-
-for result in db_functions.get_results_by('title', 'asa'):
-    print(result)

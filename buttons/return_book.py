@@ -130,7 +130,7 @@ class ResultsTree(Frame):
                      'Issue date','Issue limit','Date of return','Delay','Imposed penalty']
         cols_width = [300, 100, 120, 80, 90, 90, 100, 100, 120, 50, 140]
         results_window = Treeview(self, columns=cols, show='headings',
-                                       height=15, selectmode='browse')
+                                       height=10, selectmode='browse')
         results_window.bind('<<TreeviewSelect>>',self._insert_penalty)
         #Treeview headings
         for (col,text,width) in zip(cols, cols_text, cols_width):
