@@ -1,0 +1,6 @@
+babel
+configparser
+pillow
+psycopg2
+pytz
+tkcalendar

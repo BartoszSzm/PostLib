@@ -2,7 +2,7 @@
 from tkinter import Frame, Label, Entry, Button, Toplevel, messagebox
 from tkinter.constants import END
 from tkinter.ttk import Treeview
-from buttons import db_functions as db
+from LMS.buttons import db_functions as db
 #pylint: disable=unused-variable
 
 class DeleteBookWindow(Frame):

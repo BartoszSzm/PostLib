@@ -1,7 +1,7 @@
 # File contains functions prepared to retrieve or save data from/to database
 
 import psycopg2 as db
-from options import DB_CONN_PARAMS
+from LMS.options import DB_CONN_PARAMS
 
 PARAMS = DB_CONN_PARAMS
 

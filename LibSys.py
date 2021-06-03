@@ -1,9 +1,8 @@
-from buttons import issues_list
 from tkinter import Tk, Frame, Label, Button
 from tkinter.constants import SUNKEN
 
-from LMS.buttons import (book_details, delete_book, book_list, create_reader, 
-                         issue_book, return_book, readers_list)
+from buttons import (book_details, delete_book, book_list, create_reader, 
+                         issue_book, return_book, readers_list, issues_list)
 
 from PIL.ImageTk import PhotoImage
 from PIL import Image

@@ -8,7 +8,7 @@ from tkinter.ttk import Treeview
 from psycopg2 import errorcodes
 from psycopg2.errors import lookup
 
-from LMS.buttons import db_functions as db
+from buttons import db_functions as db
 
 #pylint: disable=unused-variable
 

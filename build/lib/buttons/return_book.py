@@ -3,8 +3,8 @@
 from datetime import date, datetime
 from tkinter import Entry, Frame, Toplevel, Label, Button, messagebox, simpledialog
 from tkinter.ttk import Treeview
-import options
-from buttons import db_functions as db
+import LMS.options as options
+from LMS.buttons import db_functions as db
 from psycopg2.errors import lookup
 from psycopg2 import errorcodes
 from sys import exc_info

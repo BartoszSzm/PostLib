@@ -2,8 +2,8 @@
 
 from tkinter import Entry, Toplevel, Frame, Label, Button, messagebox
 from tkcalendar import DateEntry
-import options
-from buttons import db_functions as db
+from LMS import options
+from LMS.buttons import db_functions as db
 from datetime import date, timedelta
 from psycopg2 import errors, errorcodes
 from sys import exc_info                                

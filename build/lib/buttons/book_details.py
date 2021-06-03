@@ -1,7 +1,7 @@
 from tkinter import Toplevel, messagebox, Frame, Label, Entry, Button
 from tkinter.constants import E, EW
 import psycopg2
-from buttons import db_functions as db
+from LMS.buttons import db_functions as db
 #pylint: disable=unused-variable
 
 class BookDetailsWindow(Frame):

@@ -3,7 +3,7 @@
 
 from tkinter import Entry, Toplevel, Frame, Button, Label, messagebox
 from tkinter.constants import *
-from buttons.db_functions import save_reader
+from LMS.buttons.db_functions import save_reader
 from psycopg2.errors import lookup
 from psycopg2 import errorcodes
 
