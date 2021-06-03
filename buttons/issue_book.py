@@ -129,31 +129,3 @@ def start():
     root.title('Issue Book')
     root.mainloop()
     
-# TODO - make infomessages when any of entries left blank (all NOT NULL)
-   
-    # lib_id must exist in publications table - ForeignKeyViolation v
-    
-    # lib_id must be not null - InvalidTextRepresentation v
-    
-    # reader_id must exist in person table - ForeignKeyViolation v
-    
-    # reader_id must be not null - InvalidTextRepresentation v
-    
-    # issue_limit must be in correct date format - InvalidDatetimeFormat
-        # format 2021-04-1 or 2021-4-1 is correct
-    
-    # issue_limit must be not null - InvalidDatetimeFormat v
-    
-    # issue_limit must be higher than issue_date (today) - CheckViolation v
-    
-    # error when trying to issue alredy issued publication - UniqueViolation v
-    
-    # List of all errors : 
-    # ForeignKeyViolation - InterityError
-    # InvalidTextRepresentation - DataError
-    # InvalidDateTimeFormat - DataError
-    # CheckViolation - IntegrityError
-    # UniqueViolation - IntegrityError
-     
-    #lib_id not present - 1, present - 3
-    #reader_id not present - 105, present - 86
