@@ -99,7 +99,7 @@ class DeleteBookWindow(Frame):
             if self.results_window.get_children():
                 warning = messagebox.askyesno('Warning!',f'Deletion of record' 
                                     f'with ID:{self.lib_id} will be permanent.'
-                                    f' Are you shure ?', parent=self.master)
+                                    f' Are you sure ?', parent=self.master)
                 if warning:
                     try:
                         db.delete_record_by('lib_id',self.lib_id,'publications')

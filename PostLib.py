@@ -81,7 +81,7 @@ def start():
     Label(root, image=img).grid()
     
     main_window = MainWindow(root)
-    root.title('Library Management System')
+    root.title('PostLib')
     root.mainloop()
     
 # Run app
