@@ -2,7 +2,7 @@ PostLib
 =======
 
 Library management system with the PostgreSQL database written in the Python tkinter.
-<img src="https://imgur.com/a/sBzD2GM" alt="Screenshot on Pop!OS Linux">
+<img src="https://i.imgur.com/JoEnyeT.jpg" alt="Screenshot on Pop!OS Linux">
 
 __About__
 -----------
